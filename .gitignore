@@ -1,0 +1,11 @@
+__pycache__/
+egs/
+data/__pycache__
+log
+pth
+visual
+recognize/__pycache__
+result
+speechtransformer/__pycache__
+streaming/__pycache__
+train/__pycache__
