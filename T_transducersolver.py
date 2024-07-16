@@ -1,8 +1,8 @@
-from rnntransducer.model.transducer import Transducer
+from Ttransducer.model.t_transducer import T_Transducer
 from train.scheduler import TransformerScheduler
 from train.trainer import Trainer
-from rnntransducer.data.dataloader import FeatureLoader
-from rnntransducer.train.utils import map_to_cuda
+from Ttransducer.data.dataloader import FeatureLoader
+from Ttransducer.train.utils import map_to_cuda
 import editdistance
 import torch
 import time
@@ -106,15 +106,16 @@ class Solver():
             w.write('The CER is %.3f. \n' % cer)
 
 fbank=80
-enc_hidden=512
-enc_out=340
-enc_layers=6 
-dec_hidden=512
+d_model=256
+n_heads=4
+d_ff=2048
+audio_layers=6
 vocab_size=4232
-dec_out=320
-dec_layers=1
-joint_dim=512
-dropout = 0.2
+label_layers=3
+inner_dim=2048
+dropout=0.1
+pre_norm=False
+chunk_size = 10
 
 train_wav_path = "egs/aishell/data/train/wav.scp"
 train_text_path = "egs/aishell/data/train/text"
@@ -122,16 +123,19 @@ test_wav_path = "egs/aishell/data/test/wav.scp"
 test_text_path = "egs/aishell/data/test/text"
 vab_path = "egs/aishell/data/transducer_vab"
 batch_size = 16
-train_epochs = 80
+train_epochs = 20
 accum_steps = 4
 
 ngpu = 1 if torch.cuda.is_available() else 0
 print("ngpu: ", ngpu)
 
-model = Transducer(fbank, enc_hidden, enc_out, enc_layers, dec_hidden, vocab_size, dec_out, dec_layers, joint_dim, dropout)
+model = T_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
+                     vocab_size, label_layers, 
+                     inner_dim,
+                     dropout, pre_norm, chunk_size)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
-solver.load_model("./pth/model.epoch.18.pth")
-# solver.train()
+
+solver.train()
 solver.recognize()

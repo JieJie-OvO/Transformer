@@ -47,7 +47,7 @@ class Transducer(nn.Module):
         
         batch_size = inputs.size(0)
 
-        enc_states, _ = self.audioencoder(inputs, inputs_length)
+        enc_states, _ = self.audioencoder(inputs)
 
         results = []
         for i in range(batch_size):

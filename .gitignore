@@ -12,3 +12,8 @@ train/__pycache__
 rnntransducer/data/__pycache__
 rnntransducer/model/__pycache__
 rnntransducer/train/__pycache__
+Ttransducer/__pycache__
+Ttransducer/data/__pycache__
+Ttransducer/model/__pycache__
+Ttransducer/model/backbone/__pycache__
+Ttransducer/train/__pycache__
