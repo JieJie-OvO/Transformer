@@ -9,3 +9,6 @@ result
 speechtransformer/__pycache__
 streaming/__pycache__
 train/__pycache__
+rnntransducer/data/__pycache__
+rnntransducer/model/__pycache__
+rnntransducer/train/__pycache__
