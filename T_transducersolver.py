@@ -1,4 +1,4 @@
-from Ttransducer.model.t_transducer import T_Transducer
+from Ttransducer.model.t_transducer import T_Transducer, T_LSTM_Transducer
 from train.scheduler import TransformerScheduler
 from train.trainer import Trainer
 from Ttransducer.data.dataloader import FeatureLoader
@@ -110,20 +110,23 @@ d_model=256
 n_heads=4
 d_ff=2048
 audio_layers=6
-vocab_size=4232
+vocab_size=4233
 label_layers=3
 inner_dim=2048
 dropout=0.1
 pre_norm=False
 chunk_size = 15
 predict_strategy="RNA"
-
+labelout_size=512
+hidden_size=512
 
 train_wav_path = "egs/aishell/data/train/wav.scp"
 train_text_path = "egs/aishell/data/train/text"
+# test_wav_path = "egs/aishell/data/train/wav.scp"
+# test_text_path = "egs/aishell/data/train/text"
 test_wav_path = "egs/aishell/data/test/wav.scp"
 test_text_path = "egs/aishell/data/test/text"
-vab_path = "egs/aishell/data/transducer_vab"
+vab_path = "egs/aishell/data/T_T_vocab"
 batch_size = 16
 train_epochs = 80
 accum_steps = 4
@@ -131,16 +134,22 @@ accum_steps = 4
 ngpu = 1 if torch.cuda.is_available() else 0
 print("ngpu: ", ngpu)
 
-model = T_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
-                     vocab_size, label_layers, 
-                     inner_dim,
-                     dropout, pre_norm, chunk_size,
-                     predict_strategy=predict_strategy)
+type_model = 'T-T'
+if type_model == 'T-T':
+    model = T_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
+                        vocab_size, label_layers, 
+                        inner_dim,
+                        dropout, pre_norm, chunk_size,
+                        predict_strategy=predict_strategy)
+else:
+    model = T_LSTM_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
+                        vocab_size, label_layers, labelout_size, hidden_size,
+                        inner_dim,
+                        dropout, pre_norm, chunk_size,
+                        predict_strategy=predict_strategy)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
-# solver.train()
-solver.load_model("./result/Ttransducer/model.epoch.69.pth")
+solver.train()
 solver.recognize()
-# 133250
