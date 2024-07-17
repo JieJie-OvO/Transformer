@@ -17,9 +17,9 @@ def gen_vocab(src_path, vocab_path):
 
     index = 3
     with open(vocab_path, 'w') as w:
-        w.write('<blk> 0\n')
-        w.write('<sos> 1\n')
-        w.write('<unk> 2\n')
+        w.write('<PAD> 0\n')
+        w.write('<S/E> 1\n')
+        w.write('<UNK> 2\n')
         for (l, n) in vocab:
             w.write(l+' '+str(index)+'\n')
             index += 1

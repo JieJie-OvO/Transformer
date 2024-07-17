@@ -11,7 +11,8 @@ class T_Transducer(nn.Module):
     def __init__(self, fbank=80, d_model=256, n_heads=4, d_ff=2048, audio_layers=6, 
                  vocab_size=4232, label_layers=3, 
                  inner_dim=2048, 
-                 dropout=0.1, pre_norm=False, chunk_size = 10):
+                 dropout=0.1, pre_norm=False, chunk_size = 10,
+                 predict_strategy="RNA"):
         super(T_Transducer, self).__init__()
 
         self.audioencoder = AudioEncoder(fbank, d_model, n_heads, d_ff, audio_layers, 
@@ -22,6 +23,8 @@ class T_Transducer(nn.Module):
                                          residual_drop=dropout, pre_norm=pre_norm)
         
         self.jointnet = JointNet(d_model*2, inner_dim, vocab_size)
+
+        self.strategy = predict_strategy
 
         # self.jointnet.project_layer.weight = self.labelencoder.embedding.weight
 
@@ -58,13 +61,17 @@ class T_Transducer(nn.Module):
 
             res = []
 
-            for i in range(batch_size):
-                res.append(self.decode(enc_state[i], inputs_length[i]))
-            
+            if self.strategy == "RNA":
+                for i in range(batch_size):
+                    res.append(self.rna_decode(enc_state[i], inputs_length[i]))
+            else:
+                for i in range(batch_size):
+                    res.append(self.rnnt_decode(enc_state[i], inputs_length[i]))
             return res
     
-    def decode(self, enc_state, len):
-        label = torch.LongTensor([[0]]).to(enc_state.device)
+    def rna_decode(self, enc_state, len):
+        last_label = 0
+        label = torch.LongTensor([[last_label]]).to(enc_state.device)
         enc_state = enc_state.unsqueeze(0)
 
         preds = []
@@ -72,17 +79,21 @@ class T_Transducer(nn.Module):
         for i in range(len):
             dec_state, _, _ = self.labelencoder.recognize_forward(label)
 
+            dec_state = dec_state[:,-1,:].unsqueeze(1)
+
             if i == len-1:
-                logits = self.jointnet.recognize_forward(dec_state, enc_state[:,:,:])
+                logits = self.jointnet.recognize_forward(dec_state.view(-1), enc_state[:,i:,:].view(-1))
             else:
-                logits = self.jointnet.recognize_forward(dec_state, enc_state[:, :1+i,:])
+                logits = self.jointnet.recognize_forward(dec_state.view(-1), enc_state[:, i:1+i,:].view(-1))
             
-            out = F.softmax(logits[0][-1], dim=-1).detach()
+            out = F.softmax(logits, dim=-1).detach()
             pred = torch.argmax(out, dim=0)
             pred = int(pred.item())
             preds.append(pred)
-            pred = torch.LongTensor([[pred]]).to(enc_state.device)
-            label = torch.cat([label, pred], dim = -1)
+            if pred != 0:
+                last_label = pred
+                pred_label = torch.LongTensor([[last_label]]).to(enc_state.device)
+                label = torch.cat([label, pred_label], dim = -1)
 
         results = []
         for i in preds:
@@ -90,6 +101,40 @@ class T_Transducer(nn.Module):
                 results.append(i)
         
         return results
+
+    def rnnt_decode(self, enc_state, len):
+        last_label = 0
+        label = torch.LongTensor([[last_label]]).to(enc_state.device)
+        enc_state = enc_state.unsqueeze(0)
+
+        preds = []
+
+        for i in range(len):
+            dec_state, _, _ = self.labelencoder.recognize_forward(label)
+
+            dec_state = dec_state[:,-1,:].unsqueeze(1)
+            if i == len-1:
+                logits = self.jointnet.recognize_forward(dec_state.view(-1), enc_state[:,i:,:].view(-1))
+            else:
+                logits = self.jointnet.recognize_forward(dec_state.view(-1), enc_state[:, i:1+i,:].view(-1))
+            
+            out = F.softmax(logits, dim=-1).detach()
+            pred = torch.argmax(out, dim=0)
+            pred = int(pred.item())
+            preds.append(pred)
+            if pred != 0:
+                last_label = pred
+                pred_label = torch.LongTensor([[last_label]]).to(enc_state.device)
+                label = torch.cat([label, pred_label], dim = -1)
+                i = i-1
+
+        results = []
+        for i in preds:
+            if i != 0:
+                results.append(i)
+        
+        return results
+
 
     def save_model(self, path):
         checkpoint = {

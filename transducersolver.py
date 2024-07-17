@@ -115,6 +115,7 @@ dec_out=320
 dec_layers=1
 joint_dim=512
 dropout = 0.2
+predict_strategy="RNNT"
 
 train_wav_path = "egs/aishell/data/train/wav.scp"
 train_text_path = "egs/aishell/data/train/text"
@@ -128,10 +129,13 @@ accum_steps = 4
 ngpu = 1 if torch.cuda.is_available() else 0
 print("ngpu: ", ngpu)
 
-model = Transducer(fbank, enc_hidden, enc_out, enc_layers, dec_hidden, vocab_size, dec_out, dec_layers, joint_dim, dropout)
+model = Transducer(fbank, enc_hidden, enc_out, enc_layers, 
+                   dec_hidden, vocab_size, dec_out, dec_layers, 
+                   joint_dim, 
+                   dropout, predict_strategy=predict_strategy)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
-solver.load_model("./pth/model.epoch.18.pth")
+solver.load_model("./result/rnntransducer/rnntransducer19.pth")
 # solver.train()
 solver.recognize()

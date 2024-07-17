@@ -41,4 +41,5 @@ class JointNet(nn.Module):
         outputs = self.tanh(outputs)
 
         outputs = self.project_layer(outputs)
+
         return outputs

@@ -115,7 +115,9 @@ label_layers=3
 inner_dim=2048
 dropout=0.1
 pre_norm=False
-chunk_size = 10
+chunk_size = 15
+predict_strategy="RNA"
+
 
 train_wav_path = "egs/aishell/data/train/wav.scp"
 train_text_path = "egs/aishell/data/train/text"
@@ -123,7 +125,7 @@ test_wav_path = "egs/aishell/data/test/wav.scp"
 test_text_path = "egs/aishell/data/test/text"
 vab_path = "egs/aishell/data/transducer_vab"
 batch_size = 16
-train_epochs = 20
+train_epochs = 80
 accum_steps = 4
 
 ngpu = 1 if torch.cuda.is_available() else 0
@@ -132,10 +134,13 @@ print("ngpu: ", ngpu)
 model = T_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
                      vocab_size, label_layers, 
                      inner_dim,
-                     dropout, pre_norm, chunk_size)
+                     dropout, pre_norm, chunk_size,
+                     predict_strategy=predict_strategy)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
-solver.train()
+# solver.train()
+solver.load_model("./result/Ttransducer/model.epoch.69.pth")
 solver.recognize()
+# 133250

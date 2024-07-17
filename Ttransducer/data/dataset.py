@@ -67,4 +67,4 @@ class AudioDataset(Dataset):
         return len(self.unit2idx)
 
     def subsampling(self, features):
-        return features[::5,:]
+        return features[::6,:]

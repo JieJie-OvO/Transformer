@@ -11,7 +11,7 @@ class Transducer(nn.Module):
     def __init__(self, input_size=80, enc_hidden=512, enc_out=340, enc_layers=6, 
                  dec_hidden=512, vocab_size=4232, dec_out=320, dec_layers=1, 
                  joint_dim=512,
-                 dropout = 0.2):
+                 dropout = 0.2, predict_strategy="RNA"):
         
         super(Transducer, self).__init__()
         self.audioencoder = AudioLSTMEncoder(input_size, enc_hidden, enc_out, enc_layers, dropout)
@@ -19,6 +19,9 @@ class Transducer(nn.Module):
         self.joint = JointNet(dec_out+enc_out, joint_dim, vocab_size)
 
         self.joint.project_layer.weight = self.labelencoder.embedding.weight
+
+        self.predict_strategy = predict_strategy
+
 
     def forward(self, inputs_dict, targets_dict):
         inputs = inputs_dict['inputs']
@@ -50,14 +53,20 @@ class Transducer(nn.Module):
         enc_states, _ = self.audioencoder(inputs)
 
         results = []
-        for i in range(batch_size):
-            decoded_seq = self.decode(enc_states[i], inputs_length[i])
-            results.append(decoded_seq)
 
+        if self.predict_strategy == "RNA":
+            for i in range(batch_size):
+                decoded_seq = self.rna_decode(enc_states[i], inputs_length[i])
+                results.append(decoded_seq)
+        else:
+            for i in range(batch_size):
+                decoded_seq = self.rnnt_decode(enc_states[i], inputs_length[i])
+                results.append(decoded_seq)
+        
         return results
 
 
-    def decode(self, enc_state, lengths):
+    def rna_decode(self, enc_state, lengths):
 
         zero_token = torch.LongTensor([[0]])
         if enc_state.is_cuda:
@@ -84,8 +93,33 @@ class Transducer(nn.Module):
 
         return token_list
     
-    def inference(self,x):
-        pass
+    def rnnt_decode(self, enc_state, lengths):
+
+        zero_token = torch.LongTensor([[0]])
+        if enc_state.is_cuda:
+            zero_token = zero_token.cuda()
+
+        token_list = []
+
+        dec_state, hidden = self.labelencoder(zero_token)
+
+        for t in range(lengths):
+            logits = self.joint(enc_state[t].view(-1), dec_state.view(-1))
+            out = F.softmax(logits, dim=0).detach()
+            pred = torch.argmax(out, dim=0)
+            pred = int(pred.item())
+
+            if pred != 0:
+                token_list.append(pred)
+                token = torch.LongTensor([[pred]])
+
+                if enc_state.is_cuda:
+                    token = token.cuda()
+
+                t = t-1
+                dec_state, hidden = self.labelencoder(token, hidden=hidden)
+
+        return token_list
 
     def save_model(self, path):
         checkpoint = {
