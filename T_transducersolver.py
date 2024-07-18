@@ -1,4 +1,5 @@
-from Ttransducer.model.t_transducer import T_Transducer, T_LSTM_Transducer
+from Ttransducer.model.t_transducer import T_Transducer
+# from Ttransducer.model.tl_transducer import T_LSTM_Transducer
 from train.scheduler import TransformerScheduler
 from train.trainer import Trainer
 from Ttransducer.data.dataloader import FeatureLoader
@@ -122,8 +123,6 @@ hidden_size=512
 
 train_wav_path = "egs/aishell/data/train/wav.scp"
 train_text_path = "egs/aishell/data/train/text"
-# test_wav_path = "egs/aishell/data/train/wav.scp"
-# test_text_path = "egs/aishell/data/train/text"
 test_wav_path = "egs/aishell/data/test/wav.scp"
 test_text_path = "egs/aishell/data/test/text"
 vab_path = "egs/aishell/data/T_T_vocab"
@@ -142,14 +141,16 @@ if type_model == 'T-T':
                         dropout, pre_norm, chunk_size,
                         predict_strategy=predict_strategy)
 else:
-    model = T_LSTM_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
-                        vocab_size, label_layers, labelout_size, hidden_size,
-                        inner_dim,
-                        dropout, pre_norm, chunk_size,
-                        predict_strategy=predict_strategy)
+    pass
+    # model = T_LSTM_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
+    #                     vocab_size, label_layers, labelout_size, hidden_size,
+    #                     inner_dim,
+    #                     dropout, pre_norm, chunk_size,
+    #                     predict_strategy=predict_strategy)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
 solver.train()
+# solver.load_model("./pth/model.epoch.pth")
 solver.recognize()

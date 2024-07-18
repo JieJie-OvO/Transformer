@@ -55,6 +55,7 @@ class FeatureLoader(object):
         self.ngpu = ngpu
         self.batch_size = batch_size
         self.shuffle = True if spec_augment else False
+        self.shuffle = False
         self.dataset = AudioDataset(wav_path,text_path, vab_path, fbank, spec_augment=spec_augment)
         self.batch_size *= ngpu
 
