@@ -1,5 +1,5 @@
 from Ttransducer.model.t_transducer import T_Transducer
-# from Ttransducer.model.tl_transducer import T_LSTM_Transducer
+from Ttransducer.model.tl_transducer import T_LSTM_Transducer
 from train.scheduler import TransformerScheduler
 from train.trainer import Trainer
 from Ttransducer.data.dataloader import FeatureLoader
@@ -34,8 +34,8 @@ class Solver():
         self.lm = lm
         self.lm_weight = lm_weight
 
-    def train(self):
-        self.trainer = Trainer(self.model, self.optimizer, self.scheduler, epochs=self.train_epochs,accum_steps=self.accum_steps)
+    def train(self, from_epoch=0):
+        self.trainer = Trainer(self.model, self.optimizer, self.scheduler, epochs=self.train_epochs,accum_steps=self.accum_steps, from_epoch=from_epoch)
         self.trainer.train(self.train_loader)
 
     def load_model(self, path):
@@ -141,16 +141,15 @@ if type_model == 'T-T':
                         dropout, pre_norm, chunk_size,
                         predict_strategy=predict_strategy)
 else:
-    pass
-    # model = T_LSTM_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
-    #                     vocab_size, label_layers, labelout_size, hidden_size,
-    #                     inner_dim,
-    #                     dropout, pre_norm, chunk_size,
-    #                     predict_strategy=predict_strategy)
+    model = T_LSTM_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
+                        vocab_size, label_layers, labelout_size, hidden_size,
+                        inner_dim,
+                        dropout, pre_norm, chunk_size,
+                        predict_strategy=predict_strategy)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
-solver.train()
-# solver.load_model("./pth/model.epoch.pth")
+solver.load_model("/mnt/sdb/guoyujie_space/Transformer/result/Ttransducer/20/model.epoch19.pth")
+# solver.train(3)
 solver.recognize()

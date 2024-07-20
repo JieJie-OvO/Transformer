@@ -27,47 +27,18 @@ class Trainer(object):
         self.visulizer = Visulizer(log_dir='./visual/')
 
     def train(self, train_loader):
-        for epoch in range(self.total_epochs):
-            if epoch > self.from_epoch-1:
-                train_loss = self.train_one_epoch(epoch, train_loader.loader)
-                self.scheduler.epoch()
+        for epoch in range(self.from_epoch, self.total_epochs):
+            train_loss = self.train_one_epoch(epoch, train_loader.loader)
+            self.scheduler.epoch()
 
-                print('-*Train-Epoch-%d/%d*-, AvgLoss:%.5f' % (epoch, self.total_epochs, train_loss))
-                self.visulizer.add_scalar('train_epoch_loss', train_loss, epoch)
+            print('-*Train-Epoch-%d/%d*-, AvgLoss:%.5f' % (epoch, self.total_epochs, train_loss))
+            self.visulizer.add_scalar('train_epoch_loss', train_loss, epoch)
 
-                self.save_model(epoch)
-                self.save_optimizer_state_dict()
-                self.clear_checkpoint(epoch)
-            elif epoch == self.from_epoch-1:
-                self.load_optimizer("./pth/latest_optimizer.pth")
-            else:
-                self.pass_train(epoch, train_loader.loader)
+            self.save_model(epoch)
+            self.save_optimizer_state_dict()
+            self.clear_checkpoint(epoch)
 
         self.optimizer.zero_grad()
-    
-    def load_optimizer(self, path):
-        chkpt = torch.load(path)
-        self.scheduler.global_step = chkpt['global_step']
-        self.optimizer.load_state_dict(chkpt['optim'])
-
-    def pass_train(self,epoch, train_loader):
-        self.model.train()
-        batch_steps = len(train_loader)
-
-        for step in range(batch_steps):
-
-            if self.global_training_step % self.accum_steps == 0:
-                self.scheduler.step()
-                self.optimizer.step()
-
-                if self.scheduler.global_step % self.log_interval == 0:
-                    process = (step + 1) / batch_steps * 100
-                    print_info = "-Training-Epoch-%d(%.5f%%), Global Step:%d, lr:%.8f" \
-                        % (epoch, process, self.scheduler.global_step, self.scheduler.lr)
-                    print(print_info)
-                    
-
-            self.global_training_step += 1
 
     def train_one_epoch(self, epoch, train_loader):
 

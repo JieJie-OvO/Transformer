@@ -78,7 +78,7 @@ class T_LSTM_Transducer(nn.Module):
         preds = []
 
         for i in range(len):
-            logits = self.jointnet.recognize_forward(dec_state[i].view(-1), enc_state.view(-1))
+            logits = self.jointnet.recognize_forward(enc_state[i].view(-1), dec_state.view(-1))
             out = F.softmax(logits, dim=0).detach()
             pred = torch.argmax(out, dim=0)
             pred = int(pred.item())
@@ -103,13 +103,7 @@ class T_LSTM_Transducer(nn.Module):
         dec_state, hidden = self.labelencoder(label)
 
         for i in range(len):
-            dec_state, hidden = self.labelencoder(label, hidden=hidden)
-
-            dec_state = dec_state[:,-1,:].unsqueeze(1)
-            if i == len-1:
-                logits = self.jointnet.recognize_forward(dec_state.view(-1), enc_state[:,i:,:].view(-1))
-            else:
-                logits = self.jointnet.recognize_forward(dec_state.view(-1), enc_state[:, i:1+i,:].view(-1))
+            logits = self.jointnet.recognize_forward(enc_state[i].view(-1), dec_state.view(-1))
             
             out = F.softmax(logits, dim=0).detach()
             pred = torch.argmax(out, dim=0)
@@ -118,6 +112,7 @@ class T_LSTM_Transducer(nn.Module):
             if pred != 0:
                 last_label = pred
                 label = torch.LongTensor([[last_label]]).to(enc_state.device)
+                dec_state, hidden = self.labelencoder(label, hidden=hidden)
                 i = i-1
 
         results = []
