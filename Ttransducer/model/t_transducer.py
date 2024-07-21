@@ -6,18 +6,21 @@ from .audioencoder import AudioEncoder
 from .jointnet import JointNet
 from .vab import BLK
 from torchaudio.functional import rnnt_loss
+from .subsampling import *
 
 SOS_SEQ = 1
 
 class T_Transducer(nn.Module):
-    def __init__(self, fbank=80, d_model=256, n_heads=4, d_ff=2048, audio_layers=6, 
+    def __init__(self, fbank=80, input_size=160, d_model=256, n_heads=4, d_ff=2048, audio_layers=6, 
                  vocab_size=4232, label_layers=3, 
                  inner_dim=2048, 
                  dropout=0.1, pre_norm=False, chunk_size = 10,
                  predict_strategy="RNA"):
         super(T_Transducer, self).__init__()
 
-        self.audioencoder = AudioEncoder(fbank, d_model, n_heads, d_ff, audio_layers, 
+        self.subsample = Conv2dSubsampling4(fbank, input_size, 0)
+
+        self.audioencoder = AudioEncoder(input_size, d_model, n_heads, d_ff, audio_layers, 
                                          residual_drop=dropout, pre_norm=pre_norm, 
                                          chunk_size=chunk_size)
 
@@ -32,13 +35,17 @@ class T_Transducer(nn.Module):
 
     def forward(self, inputs_dict, targets_dict):
         inputs = inputs_dict['inputs']
-        inputs_length = inputs_dict['inputs_length']
+        inputs_length = inputs_dict['sub_inputs_length']
+        # print("-----------------------------------------------")
+        # print(inputs_length)
         input_pad_mask = inputs_dict['mask']
 
         targets = targets_dict['targets']
         targets_length = targets_dict['targets_length']
         tg_mask = targets_dict['mask']
-
+        # print(inputs.size())
+        inputs, input_pad_mask = self.subsample(inputs, input_pad_mask)
+        # print(inputs.size())
         enc_state, _, _ = self.audioencoder(inputs, input_pad_mask)
 
         concat_targets = F.pad(targets, pad=(1, 0, 0, 0), value=SOS_SEQ)
@@ -47,14 +54,17 @@ class T_Transducer(nn.Module):
 
         logits = self.jointnet(enc_state, dec_state)
 
+        # print(logits.size())
+        # print(inputs_length)
+        # print(targets_length)
         loss = rnnt_loss(logits, targets.int(), inputs_length.int(), targets_length.int(), blank=0)
         return loss
     
     def recognize(self, inputs_dict):
         inputs = inputs_dict['inputs']
-        inputs_length = inputs_dict['inputs_length']
+        inputs_length = inputs_dict['sub_inputs_length']
         pad_mask = inputs_dict['mask']
-
+        inputs, pad_mask = self.subsample(inputs, pad_mask)
         batch_size = inputs.size(0)
         enc_state, _, _ = self.audioencoder(inputs, pad_mask)
 

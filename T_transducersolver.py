@@ -107,6 +107,7 @@ class Solver():
             w.write('The CER is %.3f. \n' % cer)
 
 fbank=80
+input_size=160
 d_model=256
 n_heads=4
 d_ff=2048
@@ -126,16 +127,16 @@ train_text_path = "egs/aishell/data/train/text"
 test_wav_path = "egs/aishell/data/test/wav.scp"
 test_text_path = "egs/aishell/data/test/text"
 vab_path = "egs/aishell/data/T_T_vocab"
-batch_size = 16
+batch_size = 10
 train_epochs = 80
-accum_steps = 4
+accum_steps = 6
 
 ngpu = 1 if torch.cuda.is_available() else 0
 print("ngpu: ", ngpu)
 
 type_model = 'T-T'
 if type_model == 'T-T':
-    model = T_Transducer(fbank, d_model, n_heads, d_ff, audio_layers, 
+    model = T_Transducer(fbank, input_size, d_model, n_heads, d_ff, audio_layers, 
                         vocab_size, label_layers, 
                         inner_dim,
                         dropout, pre_norm, chunk_size,
@@ -150,6 +151,6 @@ else:
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
-solver.load_model("/mnt/sdb/guoyujie_space/Transformer/result/Ttransducer/20/model.epoch19.pth")
-# solver.train(3)
+# solver.load_model("/mnt/sdb/guoyujie_space/Transformer/result/Ttransducer/20/model.epoch19.pth")
+solver.train()
 solver.recognize()

@@ -44,8 +44,6 @@ class AudioDataset(Dataset):
             sample_frequency=sample_frequency, dither=0.0
             )
 
-        feature = self.subsampling(feature)
-
         feature = normalization(feature)
 
         if self.apply_spec_augment:
@@ -55,7 +53,18 @@ class AudioDataset(Dataset):
         targets = self.targets_dict[utt_id]
         targets_length = len(targets)
 
-        return utt_id, feature, feature_length, targets, targets_length
+        a = feature_length
+        if a % 2 == 0:
+            a = (a-2) // 2
+        else:
+            a = (a-1) // 2
+        
+        if a % 2 == 0:
+            a = (a-2) // 2
+        else:
+            a = (a-1) // 2
+
+        return utt_id, feature, feature_length, targets, targets_length, a
 
     def __len__(self):
         return len(self.file_list)
@@ -65,6 +74,3 @@ class AudioDataset(Dataset):
 
     def vocab_size(self):
         return len(self.unit2idx)
-
-    def subsampling(self, features):
-        return features[::6,:]
