@@ -12,7 +12,7 @@ class Transducer(nn.Module):
     def __init__(self, fbank=80, input_size=160, enc_hidden=512, enc_out=320, enc_layers=6, 
                  dec_hidden=512, vocab_size=4232, dec_out=320, dec_layers=1, 
                  joint_dim=512,
-                 dropout = 0.2, predict_strategy="RNA"):
+                 dropout = 0.2, predict_strategy="RNA", lmweight=0.1):
         
         super(Transducer, self).__init__()
         self.subsample = Conv2dSubsampling4(fbank, input_size, 0)
@@ -23,7 +23,7 @@ class Transducer(nn.Module):
         self.joint.project_layer.weight = self.labelencoder.embedding.weight
 
         self.predict_strategy = predict_strategy
-
+        self.lmweight = lmweight
 
     def forward(self, inputs_dict, targets_dict):
         inputs = inputs_dict['inputs']
@@ -72,7 +72,7 @@ class Transducer(nn.Module):
         return loss
 
 
-    def recognize(self, inputs_dict):
+    def recognize(self, inputs_dict, LM=None):
         inputs = inputs_dict['inputs']
         mask = inputs_dict['mask']
         inputs_length = inputs_dict['sub_inputs_length']
@@ -86,29 +86,35 @@ class Transducer(nn.Module):
 
         if self.predict_strategy == "RNA":
             for i in range(batch_size):
-                decoded_seq = self.rna_decode(enc_states[i], inputs_length[i])
+                decoded_seq = self.rna_decode(enc_states[i], inputs_length[i], LM)
                 results.append(decoded_seq)
         else:
             for i in range(batch_size):
-                decoded_seq = self.rnnt_decode(enc_states[i], inputs_length[i])
+                decoded_seq = self.rnnt_decode(enc_states[i], inputs_length[i], LM)
                 results.append(decoded_seq)
         
         return results
 
 
-    def rna_decode(self, enc_state, lengths):
+    def rna_decode(self, enc_state, lengths, LM=None):
 
         zero_token = torch.LongTensor([[0]])
         if enc_state.is_cuda:
             zero_token = zero_token.cuda()
 
         token_list = []
+        token_list.append(0)
 
         dec_state, hidden = self.labelencoder(zero_token)
+
+        if LM is not None:
+            lm_out = LM(token_list).cuda()
 
         for t in range(lengths):
             logits = self.joint(enc_state[t].view(-1), dec_state.view(-1))
             out = F.softmax(logits, dim=0).detach()
+            if LM is not None:
+                out = out*(1-self.lmweight) + lm_out*self.lmweight
             pred = torch.argmax(out, dim=0)
             pred = int(pred.item())
 
@@ -120,22 +126,35 @@ class Transducer(nn.Module):
                     token = token.cuda()
 
                 dec_state, hidden = self.labelencoder(token, hidden=hidden)
+                if LM is not None:
+                    lm_out = LM(token_list).cuda()
+        
+        res = []
+        for i in token_list:
+            if i != 0:
+                res.append(i)
 
-        return token_list
+        return res
     
-    def rnnt_decode(self, enc_state, lengths):
+    def rnnt_decode(self, enc_state, lengths, LM=None):
 
         zero_token = torch.LongTensor([[0]])
         if enc_state.is_cuda:
             zero_token = zero_token.cuda()
 
         token_list = []
+        token_list.append(0)
 
         dec_state, hidden = self.labelencoder(zero_token)
+
+        if LM is not None:
+            lm_out = LM(token_list).cuda()
 
         for t in range(lengths):
             logits = self.joint(enc_state[t].view(-1), dec_state.view(-1))
             out = F.softmax(logits, dim=0).detach()
+            if LM is not None:
+                out = out*(1-self.lmweight) + lm_out*self.lmweight
             pred = torch.argmax(out, dim=0)
             pred = int(pred.item())
 
@@ -148,8 +167,16 @@ class Transducer(nn.Module):
 
                 t = t-1
                 dec_state, hidden = self.labelencoder(token, hidden=hidden)
+                if LM is not None:
+                    lm_out = LM(token_list).cuda()
+                
 
-        return token_list
+        res = []
+        for i in token_list:
+            if i != 0:
+                res.append(i)
+
+        return res
 
     def save_model(self, path):
         checkpoint = {

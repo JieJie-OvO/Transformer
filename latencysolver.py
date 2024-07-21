@@ -1,11 +1,12 @@
 from Latency.model.transducer import Transducer
-from train.scheduler import TransformerScheduler
+from train.scheduler import TransformerScheduler, DecayScheduler
 from train.trainer import Trainer
 from Latency.data.dataloader import FeatureLoader
 from Latency.train.utils import map_to_cuda
 import editdistance
 import torch
 import time
+from n_gram.ngram import Ngram
 
 class Solver():
     def __init__(self, model, train_wav_path, train_text_path, test_wav_path, 
@@ -25,8 +26,9 @@ class Solver():
                                      lr = 0.001, betas=[0.9,0.98], eps= 1.0e-9, 
                                      weight_decay=1.0e-6, amsgrad= False )
 
-        self.scheduler = TransformerScheduler(self.optimizer, 256, 12000, 1.0)
-
+        # self.scheduler = TransformerScheduler(self.optimizer, 256, 12000, 1.0)
+        self.scheduler = DecayScheduler(self.optimizer)
+        
         self.train_loader = FeatureLoader(train_wav_path, train_text_path, vab_path, fbank, spec_augment=True, ngpu=1, batch_size=batch_size)
         self.test_loader = FeatureLoader(test_wav_path, test_text_path, vab_path, fbank, spec_augment=False, ngpu=1, batch_size=1)
 
@@ -57,7 +59,7 @@ class Solver():
                 inputs = map_to_cuda(inputs)
 
             st = time.time()
-            preds = self.model.recognize(inputs)
+            preds = self.model.recognize(inputs, self.lm)
             et = time.time()
             span = et - st
             accu_time += span
@@ -117,6 +119,7 @@ dec_layers=1
 joint_dim=512
 dropout = 0.2
 predict_strategy="RNN-T"
+lmweight = 0.2
 
 train_wav_path = "egs/aishell/data/train/wav.scp"
 train_text_path = "egs/aishell/data/train/text"
@@ -130,13 +133,17 @@ accum_steps = 6
 ngpu = 1 if torch.cuda.is_available() else 0
 print("ngpu: ", ngpu)
 
+# LM = Ngram("./egs/aishell/data/transducer_vab", "./egs/aishell/data/train/text",n_gram=5)
+LM = None
+
 model = Transducer(fbank, input_size, enc_hidden, enc_out, enc_layers, 
                    dec_hidden, vocab_size, dec_out, dec_layers, 
                    joint_dim, 
-                   dropout, predict_strategy=predict_strategy)
+                   dropout, predict_strategy=predict_strategy, lmweight=lmweight)
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
-                vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
-solver.load_model("./pth/model.epoch.34.pth")
-solver.train(35)
+                vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, 
+                accum_steps=accum_steps, lm=LM)
+solver.load_model("./pth/model.epoch.4.pth")
+# solver.train()
 solver.recognize()

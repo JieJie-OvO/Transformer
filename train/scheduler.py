@@ -57,3 +57,15 @@ class TransformerScheduler(BaseScheduler):
 
     def get_step_lr(self, step):
         return self.factor * self.model_size ** (-0.5) * min(step ** (-0.5), step * self.warmup_steps ** (-1.5))
+    
+class DecayScheduler(BaseScheduler):
+    def __init__(self, optimizer, base=0.0001, decay=0.5):
+        
+        self.base = base
+        self.decay = decay
+        super(DecayScheduler, self).__init__(optimizer, stepwise=False)  
+
+    def get_epoch_lr(self, epoch):
+        if epoch % 2 == 0:
+            self.base = self.base * self.decay
+        return self.base
