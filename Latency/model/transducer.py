@@ -7,6 +7,7 @@ from .joint import JointNet
 from .vab import BLK
 from torchaudio.functional import rnnt_loss
 from .subsampling import *
+import time
 
 class Transducer(nn.Module):
     def __init__(self, fbank=80, input_size=160, enc_hidden=512, enc_out=320, enc_layers=6, 

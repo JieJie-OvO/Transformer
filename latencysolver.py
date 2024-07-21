@@ -50,6 +50,7 @@ class Solver():
         false_tokens = 0
         total_tokens = 0
         accu_time = 0
+        total_frames = 0
 
         writer = open("./log/predict.txt", 'w', encoding='utf-8')
         detail_writer = open("./log/predict.log", 'w', encoding='utf-8')
@@ -57,6 +58,8 @@ class Solver():
         for step, (utt_id, inputs, targets) in enumerate(self.test_loader.loader):
             if self.ngpu>0:
                 inputs = map_to_cuda(inputs)
+
+            total_frames += inputs['inputs'].size(1)
 
             st = time.time()
             preds = self.model.recognize(inputs, self.lm)
@@ -106,7 +109,8 @@ class Solver():
         with open("./log/result.txt", 'w', encoding='utf-8') as w:
             cer = false_tokens / total_tokens * 100
             w.write('The CER is %.3f. \n' % cer)
-
+            rtf = 100 * accu_time / total_frames
+            w.write('The RTF is %.6f' % rtf)
 fbank=80
 input_size=80
 enc_hidden=512
@@ -144,6 +148,6 @@ model = Transducer(fbank, input_size, enc_hidden, enc_out, enc_layers,
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, 
                 accum_steps=accum_steps, lm=LM)
-solver.load_model("./pth/model.epoch.4.pth")
+# solver.load_model("./pth/model.epoch.4.pth")
 # solver.train()
 solver.recognize()

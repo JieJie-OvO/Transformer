@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import time
 
 class AudioLSTMEncoder(nn.Module):
     def __init__(self, input_size, hidden_size=512, output_size=512, n_layers=6, dropout=0.2):
@@ -34,5 +35,4 @@ class AudioLSTMEncoder(nn.Module):
             outputs = outputs[desorted_indices]
 
         logits = self.output_proj(outputs)
-
         return logits, hidden
