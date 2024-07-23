@@ -18,3 +18,5 @@ Ttransducer/model/__pycache__
 Ttransducer/model/backbone/__pycache__
 Ttransducer/train/__pycache__
 n_gram/__pycache__
+eval_latency/__pycache__
+eval_latency/test
