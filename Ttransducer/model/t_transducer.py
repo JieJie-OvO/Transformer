@@ -144,6 +144,7 @@ class T_Transducer(nn.Module):
 
     def save_model(self, path):
         checkpoint = {
+            'subsample': self.subsample.state_dict(),
             'audioencoder': self.audioencoder.state_dict(),
             'labelencoder': self.labelencoder.state_dict(),
             'joint': self.jointnet.state_dict()
@@ -152,6 +153,7 @@ class T_Transducer(nn.Module):
         torch.save(checkpoint, path)
     
     def load_model(self, chkpt):
+        # self.subsample.load_state_dict(chkpt['subsample'])
         self.audioencoder.load_state_dict(chkpt['audioencoder'])
         self.labelencoder.load_state_dict(chkpt['labelencoder'])
         self.jointnet.load_state_dict(chkpt['joint'])

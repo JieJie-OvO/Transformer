@@ -151,6 +151,6 @@ else:
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
-# solver.load_model("/mnt/sdb/guoyujie_space/Transformer/result/Ttransducer/20/model.epoch19.pth")
-solver.train()
+solver.load_model("./pth/model.epoch.68.pth")
+solver.train(50)
 solver.recognize()

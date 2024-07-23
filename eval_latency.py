@@ -1,13 +1,11 @@
 from Latency.model.transducer import Transducer
-from train.scheduler import TransformerScheduler, DecayScheduler
-from train.trainer import Trainer
 from Latency.data.dataloader import FeatureLoader
 from Latency.train.utils import map_to_cuda
 import editdistance
 import torch
 import time
-from eval_latency.read_textgrid import textgrid2outlist
-from eval_latency.tools import compute_frames
+from Eval_latency.read_textgrid import textgrid2outlist
+from Eval_latency.tools import compute_frames
 
 
 class Eval_latency():
@@ -37,7 +35,7 @@ class Eval_latency():
 
         for step, (utt_id, inputs, targets) in enumerate(self.test_loader.loader):
             latency = []
-            print( reses[step])
+            print( reses[utt_id])
             exit()
             if step == 0:
                 # 最开始跳过，系统还没有稳定
@@ -47,7 +45,7 @@ class Eval_latency():
                 inputs = map_to_cuda(inputs)
             total_frames = inputs['inputs'].size(1)
 
-            res = reses[step]
+            res = reses[utt_id]
         
             st = time.time()
             preds = self.model.recognize_with_latency(inputs)

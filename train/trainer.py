@@ -39,7 +39,8 @@ class Trainer(object):
                 self.save_optimizer_state_dict()
                 self.clear_checkpoint(epoch)
             elif epoch == self.from_epoch-1:
-                self.load_optimizer("./pth/latest_optimizer.pth")
+                self.pass_train(epoch, train_loader.loader)
+                # self.load_optimizer("./pth/latest_optimizer.pth")
             else:
                 self.pass_train(epoch, train_loader.loader)
 
