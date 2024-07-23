@@ -18,10 +18,10 @@ item []:
 				text = ""
 			intervals [2]:
 				xmin = 0.500
-				xmax = 0.770
+				xmax = 0.780
 				text = "zhong1"
 			intervals [3]:
-				xmin = 0.770
+				xmin = 0.780
 				xmax = 1.030
 				text = "yuan2"
 			intervals [4]:
@@ -38,10 +38,10 @@ item []:
 				text = ""
 			intervals [7]:
 				xmin = 1.320
-				xmax = 1.620
+				xmax = 1.630
 				text = "chan3"
 			intervals [8]:
-				xmin = 1.620
+				xmin = 1.630
 				xmax = 1.880
 				text = "shou3"
 			intervals [9]:
@@ -78,10 +78,10 @@ item []:
 				text = "wei3"
 			intervals [17]:
 				xmin = 3.510
-				xmax = 4.000
+				xmax = 3.990
 				text = "shuo1"
 			intervals [18]:
-				xmin = 4.000
+				xmin = 3.990
 				xmax = 4.453
 				text = ""
 	item [2]:
@@ -104,10 +104,10 @@ item []:
 				text = "o1"
 			intervals [4]:
 				xmin = 0.660
-				xmax = 0.770
+				xmax = 0.780
 				text = "ng"
 			intervals [5]:
-				xmin = 0.770
+				xmin = 0.780
 				xmax = 0.850
 				text = "va2"
 			intervals [6]:
@@ -132,18 +132,18 @@ item []:
 				text = "sp"
 			intervals [11]:
 				xmin = 1.320
-				xmax = 1.430
+				xmax = 1.440
 				text = "ch"
 			intervals [12]:
-				xmin = 1.430
-				xmax = 1.550
+				xmin = 1.440
+				xmax = 1.530
 				text = "a3"
 			intervals [13]:
-				xmin = 1.550
-				xmax = 1.620
+				xmin = 1.530
+				xmax = 1.630
 				text = "n"
 			intervals [14]:
-				xmin = 1.620
+				xmin = 1.630
 				xmax = 1.720
 				text = "sh"
 			intervals [15]:
@@ -220,10 +220,10 @@ item []:
 				text = "sh"
 			intervals [33]:
 				xmin = 3.670
-				xmax = 4.000
+				xmax = 3.990
 				text = "uo1"
 			intervals [34]:
-				xmin = 4.000
+				xmin = 3.990
 				xmax = 4.430
 				text = "sp"
 			intervals [35]:

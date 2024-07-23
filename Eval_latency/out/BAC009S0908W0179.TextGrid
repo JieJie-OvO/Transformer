@@ -1,0 +1,276 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0.0
+xmax = 5.759
+tiers? <exists>
+size = 2
+item []:
+	item [1]:
+		class = "IntervalTier"
+		name = "words"
+		xmin = 0.0
+		xmax = 5.759
+		intervals: size = 22
+			intervals [1]:
+				xmin = 0.0
+				xmax = 0.520
+				text = ""
+			intervals [2]:
+				xmin = 0.520
+				xmax = 0.770
+				text = "gai1"
+			intervals [3]:
+				xmin = 0.770
+				xmax = 1.010
+				text = "zheng4"
+			intervals [4]:
+				xmin = 1.010
+				xmax = 1.300
+				text = "ce4"
+			intervals [5]:
+				xmin = 1.300
+				xmax = 1.330
+				text = ""
+			intervals [6]:
+				xmin = 1.330
+				xmax = 1.520
+				text = "dui4"
+			intervals [7]:
+				xmin = 1.520
+				xmax = 1.800
+				text = "yu2"
+			intervals [8]:
+				xmin = 1.800
+				xmax = 1.960
+				text = "yi1"
+			intervals [9]:
+				xmin = 1.960
+				xmax = 2.310
+				text = "xian4"
+			intervals [10]:
+				xmin = 2.310
+				xmax = 2.340
+				text = ""
+			intervals [11]:
+				xmin = 2.340
+				xmax = 2.570
+				text = "cheng2"
+			intervals [12]:
+				xmin = 2.570
+				xmax = 2.880
+				text = "shi4"
+			intervals [13]:
+				xmin = 2.880
+				xmax = 3.300
+				text = ""
+			intervals [14]:
+				xmin = 3.300
+				xmax = 3.590
+				text = "bing4"
+			intervals [15]:
+				xmin = 3.590
+				xmax = 3.760
+				text = "bu4"
+			intervals [16]:
+				xmin = 3.760
+				xmax = 3.800
+				text = ""
+			intervals [17]:
+				xmin = 3.800
+				xmax = 4.070
+				text = "qiang2"
+			intervals [18]:
+				xmin = 4.070
+				xmax = 4.450
+				text = ""
+			intervals [19]:
+				xmin = 4.450
+				xmax = 4.680
+				text = "zhi4"
+			intervals [20]:
+				xmin = 4.680
+				xmax = 4.890
+				text = "zhi2"
+			intervals [21]:
+				xmin = 4.890
+				xmax = 5.270
+				text = "xing2"
+			intervals [22]:
+				xmin = 5.270
+				xmax = 5.759
+				text = ""
+	item [2]:
+		class = "IntervalTier"
+		name = "phones"
+		xmin = 0.0
+		xmax = 5.759
+		intervals: size = 42
+			intervals [1]:
+				xmin = 0.000
+				xmax = 0.520
+				text = "sil"
+			intervals [2]:
+				xmin = 0.520
+				xmax = 0.600
+				text = "g"
+			intervals [3]:
+				xmin = 0.600
+				xmax = 0.770
+				text = "ai1"
+			intervals [4]:
+				xmin = 0.770
+				xmax = 0.840
+				text = "zh"
+			intervals [5]:
+				xmin = 0.840
+				xmax = 0.900
+				text = "e4"
+			intervals [6]:
+				xmin = 0.900
+				xmax = 1.010
+				text = "ng"
+			intervals [7]:
+				xmin = 1.010
+				xmax = 1.100
+				text = "c"
+			intervals [8]:
+				xmin = 1.100
+				xmax = 1.300
+				text = "e4"
+			intervals [9]:
+				xmin = 1.300
+				xmax = 1.330
+				text = "sp"
+			intervals [10]:
+				xmin = 1.330
+				xmax = 1.360
+				text = "d"
+			intervals [11]:
+				xmin = 1.360
+				xmax = 1.520
+				text = "uei4"
+			intervals [12]:
+				xmin = 1.520
+				xmax = 1.800
+				text = "v2"
+			intervals [13]:
+				xmin = 1.800
+				xmax = 1.960
+				text = "i1"
+			intervals [14]:
+				xmin = 1.960
+				xmax = 2.100
+				text = "x"
+			intervals [15]:
+				xmin = 2.100
+				xmax = 2.170
+				text = "ia4"
+			intervals [16]:
+				xmin = 2.170
+				xmax = 2.310
+				text = "n"
+			intervals [17]:
+				xmin = 2.310
+				xmax = 2.340
+				text = "sp"
+			intervals [18]:
+				xmin = 2.340
+				xmax = 2.400
+				text = "ch"
+			intervals [19]:
+				xmin = 2.400
+				xmax = 2.460
+				text = "e2"
+			intervals [20]:
+				xmin = 2.460
+				xmax = 2.570
+				text = "ng"
+			intervals [21]:
+				xmin = 2.570
+				xmax = 2.660
+				text = "sh"
+			intervals [22]:
+				xmin = 2.660
+				xmax = 2.880
+				text = "ii4"
+			intervals [23]:
+				xmin = 2.880
+				xmax = 3.300
+				text = "sp"
+			intervals [24]:
+				xmin = 3.300
+				xmax = 3.410
+				text = "b"
+			intervals [25]:
+				xmin = 3.410
+				xmax = 3.450
+				text = "i4"
+			intervals [26]:
+				xmin = 3.450
+				xmax = 3.590
+				text = "ng"
+			intervals [27]:
+				xmin = 3.590
+				xmax = 3.630
+				text = "b"
+			intervals [28]:
+				xmin = 3.630
+				xmax = 3.760
+				text = "u4"
+			intervals [29]:
+				xmin = 3.760
+				xmax = 3.800
+				text = "sp"
+			intervals [30]:
+				xmin = 3.800
+				xmax = 3.880
+				text = "q"
+			intervals [31]:
+				xmin = 3.880
+				xmax = 3.980
+				text = "ia2"
+			intervals [32]:
+				xmin = 3.980
+				xmax = 4.070
+				text = "ng"
+			intervals [33]:
+				xmin = 4.070
+				xmax = 4.450
+				text = "sp"
+			intervals [34]:
+				xmin = 4.450
+				xmax = 4.530
+				text = "zh"
+			intervals [35]:
+				xmin = 4.530
+				xmax = 4.680
+				text = "ii4"
+			intervals [36]:
+				xmin = 4.680
+				xmax = 4.770
+				text = "zh"
+			intervals [37]:
+				xmin = 4.770
+				xmax = 4.890
+				text = "ii2"
+			intervals [38]:
+				xmin = 4.890
+				xmax = 4.960
+				text = "x"
+			intervals [39]:
+				xmin = 4.960
+				xmax = 5.020
+				text = "i2"
+			intervals [40]:
+				xmin = 5.020
+				xmax = 5.270
+				text = "ng"
+			intervals [41]:
+				xmin = 5.270
+				xmax = 5.740
+				text = "sp"
+			intervals [42]:
+				xmin = 5.740
+				xmax = 5.759
+				text = ""

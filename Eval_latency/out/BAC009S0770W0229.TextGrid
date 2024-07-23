@@ -1,0 +1,296 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0.0
+xmax = 6.055875
+tiers? <exists>
+size = 2
+item []:
+	item [1]:
+		class = "IntervalTier"
+		name = "words"
+		xmin = 0.0
+		xmax = 6.055875
+		intervals: size = 23
+			intervals [1]:
+				xmin = 0.0
+				xmax = 0.430
+				text = ""
+			intervals [2]:
+				xmin = 0.430
+				xmax = 0.710
+				text = "jia1"
+			intervals [3]:
+				xmin = 0.710
+				xmax = 1.090
+				text = "qiang2"
+			intervals [4]:
+				xmin = 1.090
+				xmax = 1.360
+				text = "di4"
+			intervals [5]:
+				xmin = 1.360
+				xmax = 1.390
+				text = ""
+			intervals [6]:
+				xmin = 1.390
+				xmax = 1.670
+				text = "fang1"
+			intervals [7]:
+				xmin = 1.670
+				xmax = 1.940
+				text = "zheng4"
+			intervals [8]:
+				xmin = 1.940
+				xmax = 1.980
+				text = ""
+			intervals [9]:
+				xmin = 1.980
+				xmax = 2.230
+				text = "fu3"
+			intervals [10]:
+				xmin = 2.230
+				xmax = 2.260
+				text = ""
+			intervals [11]:
+				xmin = 2.260
+				xmax = 2.490
+				text = "zhai4"
+			intervals [12]:
+				xmin = 2.490
+				xmax = 2.800
+				text = "wu4"
+			intervals [13]:
+				xmin = 2.800
+				xmax = 2.830
+				text = ""
+			intervals [14]:
+				xmin = 2.830
+				xmax = 3.090
+				text = "guan3"
+			intervals [15]:
+				xmin = 3.090
+				xmax = 3.330
+				text = "li3"
+			intervals [16]:
+				xmin = 3.330
+				xmax = 3.820
+				text = "he2"
+			intervals [17]:
+				xmin = 3.820
+				xmax = 3.860
+				text = ""
+			intervals [18]:
+				xmin = 3.860
+				xmax = 4.110
+				text = "feng1"
+			intervals [19]:
+				xmin = 4.110
+				xmax = 4.550
+				text = "xian3"
+			intervals [20]:
+				xmin = 4.550
+				xmax = 4.940
+				text = ""
+			intervals [21]:
+				xmin = 4.940
+				xmax = 5.260
+				text = "fang2"
+			intervals [22]:
+				xmin = 5.260
+				xmax = 5.660
+				text = "kong4"
+			intervals [23]:
+				xmin = 5.660
+				xmax = 6.055875
+				text = ""
+	item [2]:
+		class = "IntervalTier"
+		name = "phones"
+		xmin = 0.0
+		xmax = 6.055875
+		intervals: size = 46
+			intervals [1]:
+				xmin = 0.000
+				xmax = 0.430
+				text = "sil"
+			intervals [2]:
+				xmin = 0.430
+				xmax = 0.520
+				text = "j"
+			intervals [3]:
+				xmin = 0.520
+				xmax = 0.710
+				text = "ia1"
+			intervals [4]:
+				xmin = 0.710
+				xmax = 0.820
+				text = "q"
+			intervals [5]:
+				xmin = 0.820
+				xmax = 0.960
+				text = "ia2"
+			intervals [6]:
+				xmin = 0.960
+				xmax = 1.090
+				text = "ng"
+			intervals [7]:
+				xmin = 1.090
+				xmax = 1.150
+				text = "d"
+			intervals [8]:
+				xmin = 1.150
+				xmax = 1.360
+				text = "i4"
+			intervals [9]:
+				xmin = 1.360
+				xmax = 1.390
+				text = "sp"
+			intervals [10]:
+				xmin = 1.390
+				xmax = 1.420
+				text = "f"
+			intervals [11]:
+				xmin = 1.420
+				xmax = 1.510
+				text = "a1"
+			intervals [12]:
+				xmin = 1.510
+				xmax = 1.670
+				text = "ng"
+			intervals [13]:
+				xmin = 1.670
+				xmax = 1.720
+				text = "zh"
+			intervals [14]:
+				xmin = 1.720
+				xmax = 1.780
+				text = "e4"
+			intervals [15]:
+				xmin = 1.780
+				xmax = 1.940
+				text = "ng"
+			intervals [16]:
+				xmin = 1.940
+				xmax = 1.980
+				text = "sp"
+			intervals [17]:
+				xmin = 1.980
+				xmax = 2.050
+				text = "f"
+			intervals [18]:
+				xmin = 2.050
+				xmax = 2.230
+				text = "u3"
+			intervals [19]:
+				xmin = 2.230
+				xmax = 2.260
+				text = "sp"
+			intervals [20]:
+				xmin = 2.260
+				xmax = 2.340
+				text = "zh"
+			intervals [21]:
+				xmin = 2.340
+				xmax = 2.490
+				text = "ai4"
+			intervals [22]:
+				xmin = 2.490
+				xmax = 2.800
+				text = "u4"
+			intervals [23]:
+				xmin = 2.800
+				xmax = 2.830
+				text = "sp"
+			intervals [24]:
+				xmin = 2.830
+				xmax = 2.890
+				text = "g"
+			intervals [25]:
+				xmin = 2.890
+				xmax = 2.980
+				text = "ua3"
+			intervals [26]:
+				xmin = 2.980
+				xmax = 3.090
+				text = "n"
+			intervals [27]:
+				xmin = 3.090
+				xmax = 3.150
+				text = "l"
+			intervals [28]:
+				xmin = 3.150
+				xmax = 3.330
+				text = "i3"
+			intervals [29]:
+				xmin = 3.330
+				xmax = 3.540
+				text = "h"
+			intervals [30]:
+				xmin = 3.540
+				xmax = 3.820
+				text = "e2"
+			intervals [31]:
+				xmin = 3.820
+				xmax = 3.860
+				text = "sp"
+			intervals [32]:
+				xmin = 3.860
+				xmax = 3.930
+				text = "f"
+			intervals [33]:
+				xmin = 3.930
+				xmax = 4.000
+				text = "e1"
+			intervals [34]:
+				xmin = 4.000
+				xmax = 4.110
+				text = "ng"
+			intervals [35]:
+				xmin = 4.110
+				xmax = 4.280
+				text = "x"
+			intervals [36]:
+				xmin = 4.280
+				xmax = 4.370
+				text = "ia3"
+			intervals [37]:
+				xmin = 4.370
+				xmax = 4.550
+				text = "n"
+			intervals [38]:
+				xmin = 4.550
+				xmax = 4.940
+				text = "sp"
+			intervals [39]:
+				xmin = 4.940
+				xmax = 5.070
+				text = "f"
+			intervals [40]:
+				xmin = 5.070
+				xmax = 5.200
+				text = "a2"
+			intervals [41]:
+				xmin = 5.200
+				xmax = 5.260
+				text = "ng"
+			intervals [42]:
+				xmin = 5.260
+				xmax = 5.350
+				text = "k"
+			intervals [43]:
+				xmin = 5.350
+				xmax = 5.410
+				text = "o4"
+			intervals [44]:
+				xmin = 5.410
+				xmax = 5.660
+				text = "ng"
+			intervals [45]:
+				xmin = 5.660
+				xmax = 6.040
+				text = "sp"
+			intervals [46]:
+				xmin = 6.040
+				xmax = 6.055875
+				text = ""

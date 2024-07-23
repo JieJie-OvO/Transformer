@@ -151,6 +151,6 @@ else:
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
 
-solver.load_model("./pth/model.epoch.68.pth")
-solver.train(50)
+solver.load_model("./pth/model.epoch.52.pth")
+solver.train(53)
 solver.recognize()

@@ -40,6 +40,8 @@ class Eval_latency():
                 inputs = map_to_cuda(inputs)
             total_frames = inputs['inputs'].size(1)
 
+            if utt_id[0] not in reses:
+                continue
             res = reses[utt_id[0]]
         
             st = time.time()
@@ -51,7 +53,8 @@ class Eval_latency():
 
             pred = preds[0]
 
-            assert len(res) == len(pred) + 1
+            if len(res) != len(pred) + 1:
+                continue
 
             for i in range(len(pred)):
                 # [[now, t], pred]

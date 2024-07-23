@@ -1,0 +1,224 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0.0
+xmax = 4.3139375
+tiers? <exists>
+size = 2
+item []:
+	item [1]:
+		class = "IntervalTier"
+		name = "words"
+		xmin = 0.0
+		xmax = 4.3139375
+		intervals: size = 18
+			intervals [1]:
+				xmin = 0.0
+				xmax = 0.410
+				text = ""
+			intervals [2]:
+				xmin = 0.410
+				xmax = 0.730
+				text = "sui2"
+			intervals [3]:
+				xmin = 0.730
+				xmax = 0.760
+				text = "<unk>"
+			intervals [4]:
+				xmin = 0.760
+				xmax = 1.130
+				text = ""
+			intervals [5]:
+				xmin = 1.130
+				xmax = 1.160
+				text = "wo3"
+			intervals [6]:
+				xmin = 1.160
+				xmax = 1.350
+				text = "guo2"
+			intervals [7]:
+				xmin = 1.350
+				xmax = 1.600
+				text = "zi1"
+			intervals [8]:
+				xmin = 1.600
+				xmax = 1.780
+				text = "ben3"
+			intervals [9]:
+				xmin = 1.780
+				xmax = 2.030
+				text = "shi4"
+			intervals [10]:
+				xmin = 2.030
+				xmax = 2.250
+				text = "chang3"
+			intervals [11]:
+				xmin = 2.250
+				xmax = 2.460
+				text = "<unk>"
+			intervals [12]:
+				xmin = 2.460
+				xmax = 2.770
+				text = "jin4"
+			intervals [13]:
+				xmin = 2.770
+				xmax = 2.890
+				text = "yi2"
+			intervals [14]:
+				xmin = 2.890
+				xmax = 2.920
+				text = ""
+			intervals [15]:
+				xmin = 2.920
+				xmax = 3.070
+				text = "bu4"
+			intervals [16]:
+				xmin = 3.070
+				xmax = 3.340
+				text = "fa1"
+			intervals [17]:
+				xmin = 3.340
+				xmax = 3.700
+				text = "zhan3"
+			intervals [18]:
+				xmin = 3.700
+				xmax = 4.3139375
+				text = ""
+	item [2]:
+		class = "IntervalTier"
+		name = "phones"
+		xmin = 0.0
+		xmax = 4.3139375
+		intervals: size = 33
+			intervals [1]:
+				xmin = 0.000
+				xmax = 0.410
+				text = "sil"
+			intervals [2]:
+				xmin = 0.410
+				xmax = 0.550
+				text = "s"
+			intervals [3]:
+				xmin = 0.550
+				xmax = 0.730
+				text = "uei2"
+			intervals [4]:
+				xmin = 0.730
+				xmax = 0.760
+				text = "spn"
+			intervals [5]:
+				xmin = 0.760
+				xmax = 1.130
+				text = "sp"
+			intervals [6]:
+				xmin = 1.130
+				xmax = 1.160
+				text = "uo3"
+			intervals [7]:
+				xmin = 1.160
+				xmax = 1.210
+				text = "g"
+			intervals [8]:
+				xmin = 1.210
+				xmax = 1.350
+				text = "uo2"
+			intervals [9]:
+				xmin = 1.350
+				xmax = 1.490
+				text = "z"
+			intervals [10]:
+				xmin = 1.490
+				xmax = 1.600
+				text = "ii1"
+			intervals [11]:
+				xmin = 1.600
+				xmax = 1.640
+				text = "b"
+			intervals [12]:
+				xmin = 1.640
+				xmax = 1.730
+				text = "e3"
+			intervals [13]:
+				xmin = 1.730
+				xmax = 1.780
+				text = "n"
+			intervals [14]:
+				xmin = 1.780
+				xmax = 1.900
+				text = "sh"
+			intervals [15]:
+				xmin = 1.900
+				xmax = 2.030
+				text = "ii4"
+			intervals [16]:
+				xmin = 2.030
+				xmax = 2.110
+				text = "ch"
+			intervals [17]:
+				xmin = 2.110
+				xmax = 2.200
+				text = "a3"
+			intervals [18]:
+				xmin = 2.200
+				xmax = 2.250
+				text = "ng"
+			intervals [19]:
+				xmin = 2.250
+				xmax = 2.460
+				text = "spn"
+			intervals [20]:
+				xmin = 2.460
+				xmax = 2.510
+				text = "j"
+			intervals [21]:
+				xmin = 2.510
+				xmax = 2.570
+				text = "i4"
+			intervals [22]:
+				xmin = 2.570
+				xmax = 2.770
+				text = "n"
+			intervals [23]:
+				xmin = 2.770
+				xmax = 2.890
+				text = "i2"
+			intervals [24]:
+				xmin = 2.890
+				xmax = 2.920
+				text = "sp"
+			intervals [25]:
+				xmin = 2.920
+				xmax = 2.950
+				text = "b"
+			intervals [26]:
+				xmin = 2.950
+				xmax = 3.070
+				text = "u4"
+			intervals [27]:
+				xmin = 3.070
+				xmax = 3.180
+				text = "f"
+			intervals [28]:
+				xmin = 3.180
+				xmax = 3.340
+				text = "a1"
+			intervals [29]:
+				xmin = 3.340
+				xmax = 3.440
+				text = "zh"
+			intervals [30]:
+				xmin = 3.440
+				xmax = 3.550
+				text = "a3"
+			intervals [31]:
+				xmin = 3.550
+				xmax = 3.700
+				text = "n"
+			intervals [32]:
+				xmin = 3.700
+				xmax = 4.290
+				text = "sp"
+			intervals [33]:
+				xmin = 4.290
+				xmax = 4.3139375
+				text = ""

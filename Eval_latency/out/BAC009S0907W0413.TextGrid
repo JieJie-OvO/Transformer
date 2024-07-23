@@ -1,0 +1,124 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0.0
+xmax = 2.6630625
+tiers? <exists>
+size = 2
+item []:
+	item [1]:
+		class = "IntervalTier"
+		name = "words"
+		xmin = 0.0
+		xmax = 2.6630625
+		intervals: size = 9
+			intervals [1]:
+				xmin = 0.0
+				xmax = 0.560
+				text = ""
+			intervals [2]:
+				xmin = 0.560
+				xmax = 0.800
+				text = "biao3"
+			intervals [3]:
+				xmin = 0.800
+				xmax = 1.080
+				text = "shi4"
+			intervals [4]:
+				xmin = 1.080
+				xmax = 1.110
+				text = ""
+			intervals [5]:
+				xmin = 1.110
+				xmax = 1.310
+				text = "jue2"
+			intervals [6]:
+				xmin = 1.310
+				xmax = 1.530
+				text = "ding4"
+			intervals [7]:
+				xmin = 1.530
+				xmax = 1.770
+				text = "ci2"
+			intervals [8]:
+				xmin = 1.770
+				xmax = 2.190
+				text = "zhi2"
+			intervals [9]:
+				xmin = 2.190
+				xmax = 2.6630625
+				text = ""
+	item [2]:
+		class = "IntervalTier"
+		name = "phones"
+		xmin = 0.0
+		xmax = 2.6630625
+		intervals: size = 17
+			intervals [1]:
+				xmin = 0.000
+				xmax = 0.560
+				text = "sil"
+			intervals [2]:
+				xmin = 0.560
+				xmax = 0.660
+				text = "b"
+			intervals [3]:
+				xmin = 0.660
+				xmax = 0.800
+				text = "iao3"
+			intervals [4]:
+				xmin = 0.800
+				xmax = 0.900
+				text = "sh"
+			intervals [5]:
+				xmin = 0.900
+				xmax = 1.080
+				text = "ii4"
+			intervals [6]:
+				xmin = 1.080
+				xmax = 1.110
+				text = "sp"
+			intervals [7]:
+				xmin = 1.110
+				xmax = 1.150
+				text = "j"
+			intervals [8]:
+				xmin = 1.150
+				xmax = 1.310
+				text = "ve2"
+			intervals [9]:
+				xmin = 1.310
+				xmax = 1.340
+				text = "d"
+			intervals [10]:
+				xmin = 1.340
+				xmax = 1.440
+				text = "i4"
+			intervals [11]:
+				xmin = 1.440
+				xmax = 1.530
+				text = "ng"
+			intervals [12]:
+				xmin = 1.530
+				xmax = 1.650
+				text = "c"
+			intervals [13]:
+				xmin = 1.650
+				xmax = 1.770
+				text = "ii2"
+			intervals [14]:
+				xmin = 1.770
+				xmax = 1.840
+				text = "zh"
+			intervals [15]:
+				xmin = 1.840
+				xmax = 2.190
+				text = "ii2"
+			intervals [16]:
+				xmin = 2.190
+				xmax = 2.640
+				text = "sp"
+			intervals [17]:
+				xmin = 2.640
+				xmax = 2.6630625
+				text = ""

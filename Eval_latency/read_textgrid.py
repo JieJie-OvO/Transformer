@@ -9,6 +9,7 @@ def textgrid2outlist(srcpath):
         name = path.split(".")[0]
         path = srcpath + "/" + path
         tgs = textgrid.TextGrid()
+        # print(path)
         tgs.read(path)
         for i in range(len(tgs.tiers[0])):
             tg = tgs.tiers[0][i]

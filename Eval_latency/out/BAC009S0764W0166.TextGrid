@@ -1,0 +1,96 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0.0
+xmax = 2.086
+tiers? <exists>
+size = 2
+item []:
+	item [1]:
+		class = "IntervalTier"
+		name = "words"
+		xmin = 0.0
+		xmax = 2.086
+		intervals: size = 6
+			intervals [1]:
+				xmin = 0.0
+				xmax = 0.400
+				text = ""
+			intervals [2]:
+				xmin = 0.400
+				xmax = 0.670
+				text = "qu4"
+			intervals [3]:
+				xmin = 0.670
+				xmax = 1.030
+				text = "xing2"
+			intervals [4]:
+				xmin = 1.030
+				xmax = 1.270
+				text = "zheng4"
+			intervals [5]:
+				xmin = 1.270
+				xmax = 1.660
+				text = "hua4"
+			intervals [6]:
+				xmin = 1.660
+				xmax = 2.086
+				text = ""
+	item [2]:
+		class = "IntervalTier"
+		name = "phones"
+		xmin = 0.0
+		xmax = 2.086
+		intervals: size = 13
+			intervals [1]:
+				xmin = 0.000
+				xmax = 0.400
+				text = "sil"
+			intervals [2]:
+				xmin = 0.400
+				xmax = 0.540
+				text = "q"
+			intervals [3]:
+				xmin = 0.540
+				xmax = 0.670
+				text = "v4"
+			intervals [4]:
+				xmin = 0.670
+				xmax = 0.780
+				text = "x"
+			intervals [5]:
+				xmin = 0.780
+				xmax = 0.920
+				text = "i2"
+			intervals [6]:
+				xmin = 0.920
+				xmax = 1.030
+				text = "ng"
+			intervals [7]:
+				xmin = 1.030
+				xmax = 1.080
+				text = "zh"
+			intervals [8]:
+				xmin = 1.080
+				xmax = 1.140
+				text = "e4"
+			intervals [9]:
+				xmin = 1.140
+				xmax = 1.270
+				text = "ng"
+			intervals [10]:
+				xmin = 1.270
+				xmax = 1.370
+				text = "h"
+			intervals [11]:
+				xmin = 1.370
+				xmax = 1.660
+				text = "ua4"
+			intervals [12]:
+				xmin = 1.660
+				xmax = 2.070
+				text = "sp"
+			intervals [13]:
+				xmin = 2.070
+				xmax = 2.086
+				text = ""
