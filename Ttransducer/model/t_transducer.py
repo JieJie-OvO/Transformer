@@ -7,6 +7,7 @@ from .jointnet import JointNet
 from .vab import BLK
 from torchaudio.functional import rnnt_loss
 from .subsampling import *
+import time
 
 SOS_SEQ = 1
 
@@ -141,7 +142,6 @@ class T_Transducer(nn.Module):
         
         return results
 
-
     def save_model(self, path):
         checkpoint = {
             'subsample': self.subsample.state_dict(),
@@ -153,7 +153,96 @@ class T_Transducer(nn.Module):
         torch.save(checkpoint, path)
     
     def load_model(self, chkpt):
-        # self.subsample.load_state_dict(chkpt['subsample'])
+        self.subsample.load_state_dict(chkpt['subsample'])
         self.audioencoder.load_state_dict(chkpt['audioencoder'])
         self.labelencoder.load_state_dict(chkpt['labelencoder'])
         self.jointnet.load_state_dict(chkpt['joint'])
+
+    def recognize_with_latency(self, inputs_dict):
+        inputs = inputs_dict['inputs']
+        inputs_length = inputs_dict['sub_inputs_length']
+        pad_mask = inputs_dict['mask']
+        inputs, pad_mask = self.subsample(inputs, pad_mask)
+        batch_size = inputs.size(0)
+        enc_state, _, _ = self.audioencoder(inputs, pad_mask)
+
+        batch_size = inputs.size(0)
+
+        res = []
+
+        if self.strategy == "RNA":
+            for i in range(batch_size):
+                res.append(self.rna_decode_latency(enc_state[i], inputs_length[i]))
+        else:
+            for i in range(batch_size):
+                res.append(self.rnnt_decode_latency(enc_state[i], inputs_length[i]))
+        return res
+    
+    def rna_decode_latency(self, enc_state, len):
+        res1 = []
+        last_label = SOS_SEQ
+        label = torch.LongTensor([[last_label]]).to(enc_state.device)
+        enc_state = enc_state.unsqueeze(0)
+
+        preds = []
+
+        for i in range(len):
+            dec_state, _, _ = self.labelencoder.recognize_forward(label)
+
+            dec_state = dec_state[:,-1,:].unsqueeze(1)
+
+            logits = self.jointnet(enc_state[:, i,:].view(-1), dec_state.view(-1))
+            
+            out = F.softmax(logits, dim=0).detach()
+            pred = torch.argmax(out, dim=0)
+            pred = int(pred.item())
+            preds.append(pred)
+            if pred != 0:
+                now = time.time()
+                res1.append([[now, i], pred])
+
+                last_label = pred
+                pred_label = torch.LongTensor([[last_label]]).to(enc_state.device)
+                label = torch.cat([label, pred_label], dim = -1)
+
+        results = []
+        for i in preds:
+            if i != 0:
+                results.append(i)
+        
+        return res1
+
+    def rnnt_decode_latency(self, enc_state, len):
+        res1 = []
+        last_label = SOS_SEQ
+        label = torch.LongTensor([[last_label]]).to(enc_state.device)
+        enc_state = enc_state.unsqueeze(0)
+
+        preds = []
+
+        for i in range(len):
+            dec_state, _, _ = self.labelencoder.recognize_forward(label)
+
+            dec_state = dec_state[:,-1,:].unsqueeze(1)
+            
+            logits = self.jointnet(enc_state[:, i,:].view(-1), dec_state.view(-1))
+            
+            out = F.softmax(logits, dim=0).detach()
+            pred = torch.argmax(out, dim=0)
+            pred = int(pred.item())
+            preds.append(pred)
+            if pred != 0:
+                now = time.time()
+                res1.append([[now, i], pred])
+                
+                last_label = pred
+                pred_label = torch.LongTensor([[last_label]]).to(enc_state.device)
+                label = torch.cat([label, pred_label], dim = -1)
+                i = i-1
+
+        results = []
+        for i in preds:
+            if i != 0:
+                results.append(i)
+        
+        return res1

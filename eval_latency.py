@@ -68,7 +68,6 @@ class Eval_latency():
             latency.append(res[-1])
             latencys.append(latency)
 
-        # TODO计算结果
         FTD = []
         LTD = []
         AvgTD = []

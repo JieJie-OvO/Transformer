@@ -1,6 +1,7 @@
 import torch
 import logging
 from .vab import PAD, BLK, EOS
+import time
 
 class StreamingRecognizer:
     def __init__(self, model, beam_width=5, nbest=1, max_len=50, 
