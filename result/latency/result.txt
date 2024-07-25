@@ -1,0 +1,2 @@
+The CER is 11.258. 
+The RTF is 0.009496
