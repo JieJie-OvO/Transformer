@@ -148,6 +148,6 @@ model = Transducer(fbank, input_size, enc_hidden, enc_out, enc_layers,
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, 
                 accum_steps=accum_steps, lm=LM)
-# solver.load_model("./pth/model.epoch.4.pth")
-# solver.train()
+
+solver.train()
 solver.recognize()

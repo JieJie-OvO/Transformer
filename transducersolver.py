@@ -136,6 +136,7 @@ model = Transducer(fbank, enc_hidden, enc_out, enc_layers,
 
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps)
+
+solver.train()
 solver.load_model("./result/rnntransducer/rnntransducer19.pth")
-# solver.train()
 solver.recognize()

@@ -4,8 +4,9 @@ import torch.nn.functional as F
 from .streamingdecoder import StreamingDecoder
 from .streamingencoder import StreamingEncoder
 from speechtransformer.frontend import ConvFrontEnd
-from .vab import BLK
+from .vab import PAD, BLK, EOS
 import math
+import time
 
 class StreamingModel(nn.Module):
     def __init__(self, fbank=40, channel=[1,64,128], kernel_size=[3,3], 
@@ -111,3 +112,44 @@ class StreamingModel(nn.Module):
         self.encoder.load_state_dict(chkpt['encoder'])
         self.decoder.load_state_dict(chkpt['decoder'])
     
+    def recognize_with_latency(self, inputs_dict, LM=None):
+        inputs = inputs_dict['inputs']
+        mask = inputs_dict['mask']
+        inputs_length = inputs_dict['inputs_length']
+        
+        batch_size = inputs.size(0)
+
+        log_probs, length = self.inference(inputs, mask)
+
+        results = []
+
+        for i in range(batch_size):
+            decoded_seq = self.ctc_decode_latency(log_probs[i], inputs_length[i], LM)
+            results.append(decoded_seq)
+
+        return results
+    
+    def ctc_decode_latency(self, enc_state, lengths, LM=None):
+        res1 = []
+
+        windows = self.windows
+
+        token_list = []
+
+        last_k = PAD
+        for i in range(enc_state.size(0)):
+            out = enc_state[i].view(-1)
+            out = F.softmax(out, dim=0).detach()
+            pred = torch.argmax(out, dim=0)
+            pred = int(pred.item())
+
+            if pred == last_k or pred == PAD:
+                last_k = pred
+                continue
+            else:
+                last_k = pred
+                token_list.append(pred)
+                now = time.time()
+                res1.append([[now, (i//windows+1)*windows], pred])
+
+        return res1

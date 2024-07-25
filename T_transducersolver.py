@@ -229,7 +229,7 @@ solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps,
                 pinyin_dic=pinyin_dic, latency_wav_path=latency_wav_path, latency_text_path=latency_text_path)
 
+solver.train()
 solver.load_model("./result/Ttransducer/ttransducer.pth")
-# solver.train(60)
-# solver.recognize()
+solver.recognize()
 solver.eval_latency()

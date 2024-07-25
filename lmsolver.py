@@ -165,5 +165,6 @@ else:
 solver = Solver(model, train_wav_path,train_text_path, test_wav_path, test_text_path,
                 vab_path, fbank, batch_size, ngpu, train_epochs = train_epochs, accum_steps=accum_steps, lm=lm, lm_weight= lm_weight)
 
-solver.load_model("./result/relconformer/relconformer.pth")
+solver.train()
+# solver.load_model("./result/relconformer/relconformer.pth")
 solver.recognize()
